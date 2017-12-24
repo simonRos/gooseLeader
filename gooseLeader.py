@@ -11,9 +11,10 @@ except ImportError:
 #twitter stuff
 from twitter import Twitter, OAuth, TwitterHTTPError
 
-#filename and pathing stuff
+#file stuff
 import os
 import os.path
+import codecs
 
 class gooseLeader:
     """Allows for searches of tweets and specific manipulations search results"""
@@ -35,7 +36,6 @@ class gooseLeader:
             elif 'consumerSecret=' in line and consumerSecret is None:
                     consumerSecret = line[spot:].strip()
 
-        print(",",accessToken,",",accessSecret,",",consumerKey,",",consumerSecret)
         oauth = OAuth(accessToken, accessSecret, consumerKey, consumerSecret)
 
         #twitter search
@@ -61,25 +61,25 @@ class gooseLeader:
             influUsers = sorted(influUsers, key = lambda user: user['followers_count'], reverse = True)
             #get top userCount
             influUsers = influUsers[0:userCount]
-        return influUsers
+        return influUsers             
 
     def userHTMLReport(self, users, title = None):
         """Creates an Html file with details on users"""
         filename = (title + "report.html")
-        with open(filename,'w+') as file:
+        with codecs.open(filename,'w+','utf-8') as file:
             file.write("<!DOCTYPE html><html><head>")
             if title != None: file.write("<title>"+title+"</title>")
             file.write("</head><body>")
             for user in users:
                 file.write("<div><p><a href='https://twitter.com/"+user['screen_name']+"'>")
                 file.write("<img src='"+user['profile_image_url_https']+"'></a></p>")
-                file.write("<p>Name: "+ user['name']+"</p>")
-                file.write("<p>Username: "+ user['screen_name']+"</p>")
-                file.write("<p>Verified: "+ str(user['verified'])+"</p>")
-                file.write("<p>Contributors: "+ str(user['contributors_enabled'])+"</p>")
+                file.write("<p>Name: "+ str(user['name']).replace('\\','\\\\')+"</p>")
+                file.write("<p>Username: "+ str(user['screen_name']).replace('\\','\\\\')+"</p>")
+                file.write("<p>Verified: "+ str(user['verified']).replace('\\','\\\\')+"</p>")
+                file.write("<p>Contributors: "+ str(user['contributors_enabled']).replace('\\','\\\\')+"</p>")
                 file.write("<p>Location: "+ user['location']+"</p>")
-                file.write("<p>Followers: "+ str(user['followers_count'])+"</p>")          
-                file.write("<p>Description: "+ user['description']+"</p>")
+                file.write("<p>Followers: "+ str(user['followers_count']).replace('\\','\\\\')+"</p>")          
+                file.write("<p>Description: "+ str(user['description']).replace('\\','\\\\')+"</p>")
                 if user['url'] != 'null':
                     file.write("<p>Url: <a href='"+ str(user['url'])+"'>"+str(user['url'])+"</a></p>")          
                 file.write("</div>")

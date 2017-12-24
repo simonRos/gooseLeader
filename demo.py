@@ -1,6 +1,8 @@
 import gooseLeader
 from gooseLeader import gooseLeader
 
+term = "trump"
 demoSearch = gooseLeader()
-
-demoSearch.userHTMLReport(demoSearch.getInfluUsers(25,demoSearch.search("trump", 10000, "en", "mixed")),"demo")
+demoSearch.userHTMLReport(
+    demoSearch.getInfluUsers(
+        10,demoSearch.search(term, 100000, "en", "mixed")),term)
