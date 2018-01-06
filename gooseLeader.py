@@ -16,6 +16,10 @@ import os
 import os.path
 import codecs
 
+#time stuff
+import time
+import datetime
+
 class gooseLeader:
     """Allows for searches of tweets and specific manipulations search results"""
     def __init__(self, 
@@ -56,31 +60,38 @@ class gooseLeader:
         """Returns info on most influential users in a given search"""
         influUsers = []
         for user in tweets['statuses']:
-            influUsers.append(user['user'])
-            #sort
-            influUsers = sorted(influUsers, key = lambda user: user['followers_count'], reverse = True)
-            #get top userCount
-            influUsers = influUsers[0:userCount]
+            #handles dupes but raises complexity. Seek better solution to dupes
+            if user['user'] not in influUsers:
+                influUsers.append(user['user'])
+                #sort
+                influUsers = sorted(influUsers, key = lambda user: user['followers_count'], reverse = True)
+                #get top userCount
+                influUsers = influUsers[0:userCount]
         return influUsers             
 
     def userHTMLReport(self, users, title = None):
         """Creates an Html file with details on users"""
-        filename = (title + "report.html")
+        filename = (title + "Report.html")
         with codecs.open(filename,'w+','utf-8') as file:
             file.write("<!DOCTYPE html><html><head>")
-            if title != None: file.write("<title>"+title+"</title>")
+            if title != None:
+                file.write("<title>"+title+"</title>")
             file.write("</head><body>")
+            file.write("<div><span>Search: "+title+"</span><br/>")
+            file.write("<span>Time: "+datetime.datetime.now().strftime("%d %B %Y %H:%M")+"</span><div>")
             for user in users:
-                file.write("<div><p><a href='https://twitter.com/"+user['screen_name']+"'>")
-                file.write("<img src='"+user['profile_image_url_https']+"'></a></p>")
-                file.write("<p>Name: "+ str(user['name']).replace('\\','\\\\')+"</p>")
-                file.write("<p>Username: "+ str(user['screen_name']).replace('\\','\\\\')+"</p>")
-                file.write("<p>Verified: "+ str(user['verified']).replace('\\','\\\\')+"</p>")
-                file.write("<p>Contributors: "+ str(user['contributors_enabled']).replace('\\','\\\\')+"</p>")
-                file.write("<p>Location: "+ user['location']+"</p>")
-                file.write("<p>Followers: "+ str(user['followers_count']).replace('\\','\\\\')+"</p>")          
-                file.write("<p>Description: "+ str(user['description']).replace('\\','\\\\')+"</p>")
+                file.write("<div>")
+                file.write("<p style='border: 2px solid #"+str(user['profile_link_color'])+"'>")
+                file.write("<a href='https://twitter.com/"+user['screen_name']+"'>")
+                file.write("<img src='"+user['profile_image_url_https']+"'></a>")
+                file.write("<br/>Name: "+ str(user['name']))
+                file.write("<br/>Username: "+ str(user['screen_name']))
+                file.write("<br/>Verified: "+ str(user['verified']))
+                file.write("<br/>Contributors: "+ str(user['contributors_enabled']))
+                file.write("<br/>Location: "+ user['location'])
+                file.write("<br/>Followers: "+ str(user['followers_count']))          
+                file.write("<br/>Description: "+ str(user['description']))
                 if user['url'] != 'null':
-                    file.write("<p>Url: <a href='"+ str(user['url'])+"'>"+str(user['url'])+"</a></p>")          
-                file.write("</div>")
+                    file.write("<br/>Url: <a href='"+ str(user['url'])+"'>"+str(user['url'])+"</a>")          
+                file.write("</p></div>")
             file.write("</body></html>")
