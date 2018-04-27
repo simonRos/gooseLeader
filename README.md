@@ -20,4 +20,5 @@ https://apps.twitter.com/
 and registering an app with a valid twitter account.
 
 You may need to install the python Twitter modules
+
   pip install twitter
