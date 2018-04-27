@@ -18,3 +18,6 @@ You can get an accessToken, accessSecret, consumerKey, and consumerSecret by goi
 https://apps.twitter.com/
 
 and registering an app with a valid twitter account.
+
+You may need to install the python Twitter modules
+  pip install twitter
