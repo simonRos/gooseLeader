@@ -69,9 +69,9 @@ class gooseLeader:
                 influUsers = influUsers[0:userCount]
         return influUsers             
 
-    def userHTMLReport(self, users, title = None):
+    def userHTMLReport(self, users, title = None, prefix = "", postfix = ""):
         """Creates an Html file with details on users"""
-        filename = (title + "Report.html")
+        filename = (prefix + title + postfix + '.html')
         with codecs.open(filename,'w+','utf-8') as file:
             file.write("<!DOCTYPE html><html><head>")
             if title != None:
