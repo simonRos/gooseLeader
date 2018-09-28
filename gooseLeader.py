@@ -73,17 +73,17 @@ class gooseLeader:
         """Creates an Html file with details on users"""
         filename = (prefix + title + postfix + '.html')
         with codecs.open(filename,'w+','utf-8') as file:
-            file.write("<!DOCTYPE html><html><head>")
+            file.write("<!DOCTYPE html>\n<html>\n<head>\n")
             if title != None:
-                file.write("<title>"+title+"</title>")
-            file.write("</head><body>")
-            file.write("<div><span>Search: "+title+"</span><br/>")
-            file.write("<span>Time: "+datetime.datetime.now().strftime("%d %B %Y %H:%M")+"</span><div>")
+                file.write("<title>"+title+"</title>\n")
+            file.write("</head>\n<body>\n")
+            file.write("<div>\n<span>Search: "+title+"</span><br/>\n")
+            file.write("<span>Time: "+datetime.datetime.now().strftime("%d %B %Y %H:%M")+"</span>\n<div>")
             for user in users:
-                file.write("<div>")
-                file.write("<p style='border: 2px solid #"+str(user['profile_link_color'])+"'>")
+                file.write("<div>\n")
+                file.write("<p style='border: 2px solid #"+str(user['profile_link_color'])+"'>\n")
                 file.write("<a href='https://twitter.com/"+user['screen_name']+"'>")
-                file.write("<img src='"+user['profile_image_url_https']+"'></a>")
+                file.write("<img src='"+user['profile_image_url_https']+"'>\n</a>")
                 file.write("<br/>Name: "+ str(user['name']))
                 file.write("<br/>Username: "+ str(user['screen_name']))
                 file.write("<br/>Verified: "+ str(user['verified']))
@@ -92,6 +92,6 @@ class gooseLeader:
                 file.write("<br/>Followers: "+ str(user['followers_count']))          
                 file.write("<br/>Description: "+ str(user['description']))
                 if user['url'] != 'null':
-                    file.write("<br/>Url: <a href='"+ str(user['url'])+"'>"+str(user['url'])+"</a>")          
-                file.write("</p></div>")
-            file.write("</body></html>")
+                    file.write("<br/>Url: <a href='"+ str(user['url'])+"'>"+str(user['url'])+"</a>\n")          
+                file.write("</p>\n</div>\n")
+            file.write("</body>\n</html>")
